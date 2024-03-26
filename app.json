@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "app",
-    "slug": "esd-mobile-app-project",
+    "slug": "poopee",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -34,9 +34,12 @@
     },
     "extra": {
       "eas": {
-        "projectId": "e7cdc307-2148-4e8a-8389-6e63c401ed7e"
+        "projectId": "91e09999-b539-43b6-af31-3320b06cc01f"
+      },
+      "router": {
+        "origin": false
       }
     },
-    "owner": "draxxxo"
+    "owner": "esd-project-app-mobile"
   }
 }

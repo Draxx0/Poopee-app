@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { Alert, Linking, StyleSheet, View } from 'react-native';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { MAPCONSTANTS } from '~/constants/map.constants';
 import * as Location from 'expo-location';
+import useGetSanitaries from '~/hooks/useGetSanitaries';
 
 export default function Map() {
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
   );
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [selectedMarker, setSelectedMarker] = useState<any>(null);
+
+  const { data, isLoading } = useGetSanitaries();
 
   useEffect(() => {
     (async () => {
@@ -18,12 +22,40 @@ export default function Map() {
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
+      let locationSubscription = await Location.watchPositionAsync(
+        {},
+        (newLocation) => {
+          setLocation(newLocation);
+        }
+      );
+
+      return () => {
+        if (locationSubscription) {
+          locationSubscription.remove();
+        }
+      };
     })();
   }, []);
 
-  console.log('THERE IS A LOCATION', !!location);
+  const handleMarkerPress = (marker: any) => {
+    setSelectedMarker(marker);
+    if (location && marker) {
+      Alert.alert(
+        `Itinéraire - ${marker.adresse}`,
+        `Latitude: ${marker.geo_point_2d.lat}, Longitude: ${marker.geo_point_2d.lon}`,
+        [
+          { text: 'Annuler', style: 'cancel' },
+          {
+            text: 'Ouvrir Maps',
+            onPress: () => {
+              const url = `https://www.google.com/maps/dir/?api=1&destination=${marker.geo_point_2d.lat},${marker.geo_point_2d.lon}`;
+              Linking.openURL(url);
+            },
+          },
+        ]
+      );
+    }
+  };
 
   return (
     // INSERT BLUR ON MAP AND DISABLED MAP IF LOCATION IS NOT ENABLED
@@ -32,7 +64,12 @@ export default function Map() {
       <MapView
         provider={PROVIDER_GOOGLE}
         style={styles.map}
-        userInterfaceStyle="dark"
+        userLocationPriority="high"
+        accessibilityElementsHidden={true}
+        followsUserLocation={true}
+        showsUserLocation={true}
+        showsMyLocationButton={true}
+        loadingEnabled={!!isLoading}
         initialRegion={
           location
             ? {
@@ -45,8 +82,21 @@ export default function Map() {
                 ...MAPCONSTANTS.initialRegion,
               }
         }
-      />
+      >
+        {data &&
+          data.map((sanitary: any, index: number) => (
+            <Marker
+              key={index}
+              coordinate={{
+                latitude: sanitary.geo_point_2d.lat,
+                longitude: sanitary.geo_point_2d.lon,
+              }}
+              onPress={() => handleMarkerPress(sanitary)}
+            />
+          ))}
+      </MapView>
     ) : (
+      // DISABLED MAP
       <View style={{ flex: 1 }}>
         <MapView
           style={styles.mapDisabled}
@@ -72,6 +122,6 @@ const styles = StyleSheet.create({
   mapDisabled: {
     flex: 1,
     height: '100%',
-    opacity: 0.5,
+    opacity: 0.2,
   },
 });
