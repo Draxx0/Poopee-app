@@ -1,10 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Map } from '~/components/Map';
 
-export default function App() {
+export function Home() {
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <Map />
     </View>
   );
 }
@@ -12,6 +12,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    maxHeight: 500,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',

@@ -1,0 +1,2 @@
+<use-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<use-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
