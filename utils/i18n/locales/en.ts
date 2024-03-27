@@ -5,6 +5,18 @@ const en: typeof fr = {
     home: {
       index: {
         tabBarLabel: 'Map',
+        sanitaryServiceLabel: 'Sanitary Service',
+        sanitaryPmrAccessibility: 'Accessibility PWRM',
+        sanitaryBabyRelay: 'Baby Relay',
+        sanitaryNoServices: 'No services available',
+        sanitaryCloseLabel: 'Close',
+        santaryOpenIntinerary: 'Open itinerary',
+        sanitaryEmptyOpenHours: 'No hours available',
+        sanitaryOpenCard: 'Open card',
+        sanitaryNoAddress: 'No address',
+        sanitaryItinerary: 'Walking time : {{walkingTime}}',
+        sanitaryAdress: 'Address : {{adress}}',
+        sanitaryOpenHours: 'Hours : {{openHours}}',
       },
     },
     settings: {

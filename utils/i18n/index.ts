@@ -8,7 +8,7 @@ import en from './locales/en';
 import fr from './locales/fr';
 
 const locales = getLocales();
-const locale = locales?.[0]?.languageCode ?? 'en';
+const locale = locales?.[0]?.languageCode ?? 'fr';
 
 if (!i18n.isInitialized) {
   i18n.use(initReactI18next).init({
@@ -17,7 +17,7 @@ if (!i18n.isInitialized) {
       fr: { translation: fr },
     },
     lng: locale,
-    fallbackLng: 'en',
+    fallbackLng: 'fr',
     debug: __DEV__,
     interpolation: { escapeValue: false },
     react: { useSuspense: false },

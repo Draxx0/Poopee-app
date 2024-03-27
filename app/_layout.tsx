@@ -9,6 +9,8 @@ import { useEffect } from 'react';
 import { AppState, AppStateStatus, Platform } from 'react-native';
 import '~/utils/i18n';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 const queryClient = new QueryClient();
 
@@ -51,9 +53,13 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetModalProvider>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
     </QueryClientProvider>
   );
 }
