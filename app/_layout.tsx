@@ -9,6 +9,8 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import Drawer from './drawer';
 import DrawerNavigator from './drawer';
 
+SplashScreen.preventAutoHideAsync();
+
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),

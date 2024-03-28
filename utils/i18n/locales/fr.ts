@@ -20,6 +20,22 @@ const fr = {
     settings: {
       index: {
         tabBarLabel: 'Paramètres',
+        title: 'Bienvenue sur Poopee !',
+        subtitle: 'Trouvez les toilettes publiques à Paris.',
+        filter: {
+          title:
+            'Vous avez la possibilité de filtrer les toilettes publiques par :',
+          nearest: 'Les plus proches',
+          pmr: 'Accessibilité PMR',
+          babyRelay: 'Relais bébé',
+        },
+        sanitaryCard:
+          'Sur la fiche des toilettes, vous trouverez différentres informations comme les horaires ou les services disponibles.',
+        dataCollect:
+          'Les données Poopee ne collecte aucune donnée en dehors de votre géolocalisation.',
+        selectLanguage: 'Sélectionnez votre langue',
+        french: 'Français',
+        english: 'Anglais',
       },
     },
   },
