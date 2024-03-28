@@ -56,7 +56,6 @@ export default function Map() {
       );
       return distanceA - distanceB;
     });
-    console.log('sortedSanitaries', sortedSanitaries.slice(0, 10));
     setFilteredSanitaries(sortedSanitaries.slice(0, 10));
   };
 
@@ -84,9 +83,6 @@ export default function Map() {
     }
   };
 
-  useEffect(() => {
-    console.log('filteredSanitaries', filteredSanitaries, 'location', location);
-  }, [filteredSanitaries]);
 
   return location ? (
     <MapView
