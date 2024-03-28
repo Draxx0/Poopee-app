@@ -73,6 +73,8 @@ export default function Filters({
   );
 
   const handleFindClosestSanitary = useCallback(() => {
+    console.log(sanitaries.length);
+    console.log(location);
     if (!sanitaries.length || !location) {
       return;
     }
@@ -104,6 +106,8 @@ export default function Filters({
       location,
       setWalkingTime,
     });
+
+    console.log(sortedSanitaries[0]);
 
     moveMapToLocation(mapRef, {
       latitude: sortedSanitaries[0].geo_point_2d.lat,
