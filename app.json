@@ -8,22 +8,16 @@
     "scheme": "esd-mobile-app-project",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/pin_toilettes.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#7478B7"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.esdprojectappmobile.esdmobileappproject"
     },
-    "plugins": [
-      "expo-router",
-      "expo-localization",
-      "expo-font"
-    ],
+    "plugins": ["expo-router", "expo-localization", "expo-font"],
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",

@@ -30,6 +30,4 @@ export const handleMarkerPress = ({
     },
     setWalkingTime
   );
-
-  console.log('calculate walking time');
 };

@@ -73,8 +73,6 @@ export default function Filters({
   );
 
   const handleFindClosestSanitary = useCallback(() => {
-    console.log(sanitaries.length);
-    console.log(location);
     if (!sanitaries.length || !location) {
       return;
     }
@@ -107,13 +105,11 @@ export default function Filters({
       setWalkingTime,
     });
 
-    console.log(sortedSanitaries[0]);
-
     moveMapToLocation(mapRef, {
       latitude: sortedSanitaries[0].geo_point_2d.lat,
       longitude: sortedSanitaries[0].geo_point_2d.lon,
     });
-  }, []);
+  }, [location]);
 
   const calculateDistance = (
     lat1: number,
@@ -175,7 +171,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     right: 20,
-    bottom: 150,
+    bottom: 20,
     display: 'flex',
     flexDirection: 'column',
     gap: 20,

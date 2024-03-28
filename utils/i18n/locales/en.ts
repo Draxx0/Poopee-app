@@ -22,6 +22,21 @@ const en: typeof fr = {
     settings: {
       index: {
         tabBarLabel: 'Settings',
+        title: 'Welcome to Poopee !',
+        subtitle: 'Find public toilets in Paris.',
+        filter: {
+          title: 'You have the possibility to filter public toilets by :',
+          nearest: 'Nearest toilets',
+          pmr: 'Accessibility PWRM',
+          babyRelay: 'Baby relay',
+        },
+        sanitaryCard:
+          'On the toilet card, you will find different information such as opening hours or available services.',
+        dataCollect:
+          'Poopee does not collect any data outside of your geolocation.',
+        selectLanguage: 'Select your language',
+        french: 'French',
+        english: 'English',
       },
     },
   },

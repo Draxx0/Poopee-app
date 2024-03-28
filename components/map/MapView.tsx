@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Linking, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { MAPCONSTANTS } from '~/constants/map.constants';
 import * as Location from 'expo-location';
-import { useSanitariesStore } from '~/store/sanitaries.store';
+import { SANITARIES } from '~/constants/sanitaries.constants';
 import { Sanitaries } from '~/types';
 import { colors } from '~/constants';
 import { Filters } from '~/types/filters';
-import { SANITARIES } from '~/constants/sanitaries.constants';
-import { calculateWalkingTime } from '~/utils/functions/getWalkingTime';
 import { useUserLocationStore } from '~/store/user-location.store';
+import { useSanitariesStore } from '~/store/sanitaries.store';
 import { handleMarkerPress } from '~/utils/functions/handleMarkerPress';
 
 type Props = {
@@ -86,7 +85,7 @@ export default function MapViewComp({
       ? require('~/assets/images/pin_toilettes.png')
       : sanitary.type === 'URINOIR'
       ? require('~/assets/images/pin_urinoir.png')
-      : require('~/assets/images/marker.png');
+      : require('~/assets/images/pin_toilettes.png');
   };
 
   return (
@@ -98,9 +97,11 @@ export default function MapViewComp({
       customMapStyle={[...MAPCONSTANTS.customMap]}
       userLocationPriority="high"
       accessibilityElementsHidden={true}
-      followsUserLocation={true}
+      followsUserLocation={false}
       showsUserLocation={true}
       showsCompass={false}
+      showsScale={false}
+      showsMyLocationButton={false}
       loadingEnabled={true}
       loadingIndicatorColor={colors.main}
       onRegionChangeComplete={(region) => {
