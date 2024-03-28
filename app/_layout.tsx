@@ -6,6 +6,8 @@ import '~/utils/i18n';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import Drawer from './drawer';
+import DrawerNavigator from './drawer';
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -35,11 +37,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <BottomSheetModalProvider>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        </Stack>
-      </BottomSheetModalProvider>
+      <DrawerNavigator />
     </GestureHandlerRootView>
   );
 }
