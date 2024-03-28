@@ -7,6 +7,7 @@ export interface Sanitaries {
   acces_pmr: string | null;
   relais_bebe: string | null;
   url_fiche_equipement: string | null;
+  distance?: number;
   geo_shape: {
     type: string;
     geometry: {

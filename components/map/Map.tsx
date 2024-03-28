@@ -1,10 +1,11 @@
 import { View, StyleSheet } from 'react-native';
 import MapViewComp from './MapView';
 import SanitaryBottomSheet from './sanitaryDetails/SanitaryBottomSheet';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Sanitaries } from '~/types';
 import Filters from './Filters';
 import { Filters as IFilters } from '~/types/filters';
+import MapView from 'react-native-maps';
 
 export default function Map() {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -18,6 +19,7 @@ export default function Map() {
     setSelectedSanitary(null);
     setMenuVisible(false);
   };
+  const mapRef = useRef<MapView>(null);
 
   return (
     <View style={styles.container}>
@@ -26,6 +28,7 @@ export default function Map() {
         setMenuVisible={setMenuVisible}
         selectedFilter={selectedFilters}
         setWalkingTime={setWalkingTime}
+        mapRef={mapRef}
       />
       {menuVisible && (
         <SanitaryBottomSheet
@@ -38,6 +41,10 @@ export default function Map() {
       <Filters
         selectedFilter={selectedFilters}
         setSelectedFilters={setSelectedFilters}
+        setSelectedSanitary={setSelectedSanitary}
+        setMenuVisible={setMenuVisible}
+        mapRef={mapRef}
+        setWalkingTime={setWalkingTime}
       />
     </View>
   );

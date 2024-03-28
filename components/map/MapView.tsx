@@ -9,12 +9,15 @@ import { colors } from '~/constants';
 import { Filters } from '~/types/filters';
 import { SANITARIES } from '~/constants/sanitaries.constants';
 import { calculateWalkingTime } from '~/utils/functions/getWalkingTime';
+import { useUserLocationStore } from '~/store/user-location.store';
+import { handleMarkerPress } from '~/utils/functions/handleMarkerPress';
 
 type Props = {
   setMenuVisible: (visible: boolean) => void;
   setSelectedSanitary: (marker: Sanitaries) => void;
   selectedFilter: Filters[];
   setWalkingTime: (time: string | null) => void;
+  mapRef: React.RefObject<MapView>;
 };
 
 export default function MapViewComp({
@@ -22,11 +25,10 @@ export default function MapViewComp({
   setSelectedSanitary,
   selectedFilter,
   setWalkingTime,
+  mapRef,
 }: Props) {
-  const [location, setLocation] = useState<Location.LocationObject | null>(
-    null
-  );
   const { sanitaries, setSanitaries } = useSanitariesStore();
+  const { location, setLocation } = useUserLocationStore();
 
   useEffect(() => {
     (async () => {
@@ -77,22 +79,6 @@ export default function MapViewComp({
     setSanitaries(sortedSanitaries.slice(0, MAPCONSTANTS.sanitariesMaxVisible));
   };
 
-  const handleMarkerPress = (sanitary: Sanitaries) => {
-    setSelectedSanitary(sanitary);
-    setMenuVisible(true);
-    calculateWalkingTime(
-      {
-        lat: location?.coords.latitude || 0,
-        lon: location?.coords.longitude || 0,
-      },
-      {
-        lat: sanitary.geo_point_2d.lat,
-        lon: sanitary.geo_point_2d.lon,
-      },
-      setWalkingTime
-    );
-  };
-
   const detectPinImage = (sanitary: Sanitaries) => {
     return sanitary.type === 'SANISETTE' ||
       sanitary.type === 'TOILETTES' ||
@@ -106,6 +92,7 @@ export default function MapViewComp({
   return (
     <MapView
       provider={PROVIDER_GOOGLE}
+      ref={mapRef}
       style={styles.map}
       showsTraffic={false}
       customMapStyle={[...MAPCONSTANTS.customMap]}
@@ -135,7 +122,7 @@ export default function MapViewComp({
             }
       }
     >
-      {sanitaries.map((sanitary: any, index: number) => (
+      {sanitaries.map((sanitary: Sanitaries, index: number) => (
         <Marker
           key={index}
           coordinate={{
@@ -143,7 +130,15 @@ export default function MapViewComp({
             longitude: sanitary.geo_point_2d.lon,
           }}
           icon={detectPinImage(sanitary)}
-          onPress={() => handleMarkerPress(sanitary)}
+          onPress={() =>
+            handleMarkerPress({
+              sanitary,
+              setMenuVisible,
+              setSelectedSanitary,
+              location,
+              setWalkingTime,
+            })
+          }
         />
       ))}
     </MapView>

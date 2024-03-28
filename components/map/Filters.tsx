@@ -5,14 +5,32 @@ import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import { Filters as IFilters } from '~/types/filters';
 import { useSanitariesStore } from '~/store/sanitaries.store';
 import { SANITARIES } from '~/constants/sanitaries.constants';
+import { AntDesign } from '@expo/vector-icons';
+import { Sanitaries } from '~/types';
+import { useUserLocationStore } from '~/store/user-location.store';
+import { moveMapToLocation } from '~/utils/functions/moveMapToLocation';
+import MapView from 'react-native-maps';
+import { handleMarkerPress } from '~/utils/functions/handleMarkerPress';
 
 type Props = {
   selectedFilter: IFilters[];
   setSelectedFilters: (filters: IFilters[]) => void;
+  setSelectedSanitary: (marker: Sanitaries) => void;
+  mapRef: React.RefObject<MapView>;
+  setMenuVisible: (visible: boolean) => void;
+  setWalkingTime: (time: string | null) => void;
 };
 
-export default function Filters({ selectedFilter, setSelectedFilters }: Props) {
-  const { setSanitaries } = useSanitariesStore();
+export default function Filters({
+  selectedFilter,
+  setSelectedFilters,
+  setSelectedSanitary,
+  mapRef,
+  setWalkingTime,
+  setMenuVisible,
+}: Props) {
+  const { setSanitaries, sanitaries } = useSanitariesStore();
+  const { location } = useUserLocationStore();
 
   const isSelected = useCallback(
     (filter: IFilters) => {
@@ -54,6 +72,69 @@ export default function Filters({ selectedFilter, setSelectedFilters }: Props) {
     [selectedFilter, setSelectedFilters]
   );
 
+  const handleFindClosestSanitary = useCallback(() => {
+    if (!sanitaries.length || !location) {
+      return;
+    }
+
+    let sortedSanitaries = [...SANITARIES];
+
+    sortedSanitaries.forEach((sanitary) => {
+      const distance = calculateDistance(
+        location.coords.latitude,
+        location.coords.longitude,
+        sanitary.geo_point_2d.lat,
+        sanitary.geo_point_2d.lon
+      );
+      sanitary.distance = distance;
+    });
+
+    sortedSanitaries.sort(
+      (a: Sanitaries, b: Sanitaries) => a.distance! - b.distance!
+    );
+
+    setSanitaries([sortedSanitaries[0]]);
+    setSelectedSanitary(sortedSanitaries[0]);
+    setMenuVisible(true);
+
+    handleMarkerPress({
+      sanitary: sortedSanitaries[0],
+      setSelectedSanitary,
+      setMenuVisible,
+      location,
+      setWalkingTime,
+    });
+
+    moveMapToLocation(mapRef, {
+      latitude: sortedSanitaries[0].geo_point_2d.lat,
+      longitude: sortedSanitaries[0].geo_point_2d.lon,
+    });
+  }, []);
+
+  const calculateDistance = (
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number
+  ) => {
+    const earthRadius = 6371;
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = earthRadius * c;
+    return distance;
+  };
+
+  const deg2rad = (deg: number) => {
+    return deg * (Math.PI / 180);
+  };
+
   return (
     <View style={styles.container}>
       <TouchableHighlight
@@ -76,6 +157,12 @@ export default function Filters({ selectedFilter, setSelectedFilters }: Props) {
           color={isSelected('baby') ? colors.main : colors.white}
         />
       </TouchableHighlight>
+      <TouchableHighlight
+        style={styles.featureContainer}
+        onPress={() => handleFindClosestSanitary()}
+      >
+        <AntDesign name="rocket1" size={20} color={colors.white} />
+      </TouchableHighlight>
     </View>
   );
 }
@@ -96,6 +183,16 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 2,
     borderColor: colors.main,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  featureContainer: {
+    padding: 15,
+    backgroundColor: colors.main,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: colors.white,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
