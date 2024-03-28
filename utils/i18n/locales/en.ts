@@ -22,6 +22,10 @@ const en: typeof fr = {
     settings: {
       index: {
         tabBarLabel: 'Settings',
+        languageLabel: 'Select the language :',
+        english: 'English',
+        french: 'French',
+        changeLanguage: 'Change language',
       },
     },
   },

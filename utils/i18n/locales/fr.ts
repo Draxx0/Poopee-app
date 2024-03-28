@@ -20,6 +20,10 @@ const fr = {
     settings: {
       index: {
         tabBarLabel: 'Paramètres',
+        languageLabel: 'Selectionner la langue :',
+        english: 'Anglais',
+        french: 'Français',
+        changeLanguage: 'Changer la langue',
       },
     },
   },
