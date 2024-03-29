@@ -98,6 +98,7 @@ export default function Filters({
     setMenuVisible(true);
 
     handleMarkerPress({
+      mapRef,
       sanitary: sortedSanitaries[0],
       setSelectedSanitary,
       setMenuVisible,

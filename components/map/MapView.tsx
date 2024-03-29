@@ -133,6 +133,7 @@ export default function MapViewComp({
           icon={detectPinImage(sanitary)}
           onPress={() =>
             handleMarkerPress({
+              mapRef,
               sanitary,
               setMenuVisible,
               setSelectedSanitary,
