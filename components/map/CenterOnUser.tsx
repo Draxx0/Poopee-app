@@ -11,6 +11,10 @@ export default function CenterOnUser({
 }) {
   const { location } = useUserLocationStore();
 
+  const zoomFactor = Math.pow(2, 20 - 17);
+  const latitudeDelta = 0.0922 / zoomFactor;
+  const longitudeDelta = 0.0421 / zoomFactor;
+
   const handleLocate = () => {
     if (!location || !mapRef.current) return;
 
@@ -18,8 +22,8 @@ export default function CenterOnUser({
       {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta,
+        longitudeDelta,
       },
       1000
     );
