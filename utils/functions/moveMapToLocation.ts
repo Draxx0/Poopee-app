@@ -5,11 +5,14 @@ export const moveMapToLocation = (
   coords: { latitude: number; longitude: number }
 ) => {
   if (mapRef.current) {
+    const zoomFactor = Math.pow(2, 20 - 15);
+    const latitudeDelta = 0.0922 / zoomFactor;
+    const longitudeDelta = 0.0421 / zoomFactor;
     mapRef.current.animateToRegion(
       {
         ...coords,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta,
+        longitudeDelta,
       },
       1000
     );

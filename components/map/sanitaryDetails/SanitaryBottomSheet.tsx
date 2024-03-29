@@ -1,22 +1,19 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Linking,
-  Button,
   ActivityIndicator,
-  Pressable,
 } from 'react-native';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { Sanitaries } from '~/types';
 import { colors } from '~/constants';
-import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome, FontAwesome5, Entypo, Feather } from '@expo/vector-icons';
 import Divider from '~/components/common/Divider';
 import { useTranslation } from 'react-i18next';
 import PressableButton from '~/components/common/PressableButton';
 import FillButton from '~/components/common/FillButton';
-import { Entypo, Feather } from '@expo/vector-icons';
 type Props = {
   visible: boolean;
   data: Sanitaries | null;
