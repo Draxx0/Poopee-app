@@ -1,3 +1,5 @@
+import { Platform } from 'react-native';
+
 type DirectionsResponse = {
   start: string;
   end: string;
@@ -71,17 +73,20 @@ export const calculateWalkingTime = async (
   endCoords: { lat: number; lon: number },
   setWalkingTime: (time: string | null) => void
 ) => {
+  const url =
+    Platform.OS === 'android'
+      ? `https://wxs.ign.fr/calcul/geoportail/itineraire/rest/1.0.0/route?resource=bdtopo-osrm&start=${startCoords.lon}%2C${startCoords.lat}&end=${endCoords.lon}%2C${endCoords.lat}&profile=pedestrian&optimization=fastest&geometryFormat=geojson&constraints=%7B%22constraintType%22%3A%22banned%22%2C%22key%22%3A%22wayType%22%2C%22operator%22%3A%22%3D%22%2C%22value%22%3A%22autoroute%22%7D&getSteps=false&getBbox=false&distanceUnit=meter&timeUnit=minute&crs=EPSG%3A4326`
+      : `https://wxs.ign.fr/calcul/geoportail/itineraire/rest/1.0.0/route?resource=bdtopo-osrm&start=${startCoords.lon}%2C${startCoords.lat}&end=${endCoords.lon}%2C${endCoords.lat}&profile=pedestrian&optimization=fastest&geometryFormat=geojson&constraints=%7B%22constraintType%22%3A%22banned%22%2C%22key%22%3A%22wayType%22%2C%22operator%22%3A%22%3D%22%2C%22value%22%3A%22autoroute%22%7D&getSteps=false&getBbox=false&distanceUnit=meter&timeUnit=minute&crs=EPSG%3A4326`;
+
   try {
     setWalkingTime(null);
-    const response = await fetch(
-      `https://wxs.ign.fr/calcul/geoportail/itineraire/rest/1.0.0/route?resource=bdtopo-osrm&start=${startCoords.lon}%2C${startCoords.lat}&end=${endCoords.lon}%2C${endCoords.lat}&profile=pedestrian&optimization=fastest&geometryFormat=geojson&constraints=%7B%22constraintType%22%3A%22banned%22%2C%22key%22%3A%22wayType%22%2C%22operator%22%3A%22%3D%22%2C%22value%22%3A%22autoroute%22%7D&getSteps=false&getBbox=false&distanceUnit=meter&timeUnit=minute&crs=EPSG%3A4326
-      `
-    );
+    const response = await fetch(url);
     const data: DirectionsResponse = await response.json();
+
     if (data.duration > 60) {
       return setWalkingTime(`${Math.floor(data.duration / 60)} h`);
     }
-    setWalkingTime(`${data.duration} min`);
+    setWalkingTime(`${data.duration.toFixed(0)} min`);
   } catch (error) {
     console.error('Error calculating walking time:', error);
   }

@@ -16,7 +16,7 @@ import Divider from '~/components/common/Divider';
 import { useTranslation } from 'react-i18next';
 import PressableButton from '~/components/common/PressableButton';
 import FillButton from '~/components/common/FillButton';
-
+import { Entypo, Feather } from '@expo/vector-icons';
 type Props = {
   visible: boolean;
   data: Sanitaries | null;
@@ -32,7 +32,7 @@ export default function SanitaryBottomSheet({
   const { t } = useTranslation();
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const snapPoints = useMemo(() => ['65%', '85%'], []);
+  const snapPoints = useMemo(() => ['45%', '75%'], []);
 
   const handleOpenMaps = () => {
     if (data) {
@@ -98,7 +98,18 @@ export default function SanitaryBottomSheet({
           }}
         >
           <BottomSheetView style={styles.contentContainer}>
-            <Text style={styles.title}>{data.type}</Text>
+            <View
+              style={{
+                ...styles.rowContainer,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Text style={styles.title}>{data.type}</Text>
+              <FillButton onPress={onClose}>
+                <Entypo name="cross" size={16} color={colors.white} />
+              </FillButton>
+            </View>
 
             <View style={styles.rowContainer}>
               <FontAwesome name="map-pin" size={16} color={colors.main} />
@@ -129,18 +140,32 @@ export default function SanitaryBottomSheet({
               </Text>
             </View>
 
-            <View style={styles.rowContainer}>
-              <FontAwesome5 name="walking" size={16} color={colors.main} />
+            <View
+              style={{
+                ...styles.rowContainer,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <View style={styles.rowContainer}>
+                <FontAwesome5 name="walking" size={16} color={colors.main} />
 
-              {!walkingTime ? (
-                <ActivityIndicator size="small" color={colors.main} />
-              ) : (
-                <View style={styles.rowContainer}>
-                  <Text style={styles.text}>
-                    {t('screens.home.index.sanitaryItinerary', { walkingTime })}
-                  </Text>
-                </View>
-              )}
+                {!walkingTime ? (
+                  <ActivityIndicator size="small" color={colors.main} />
+                ) : (
+                  <View style={styles.rowContainer}>
+                    <Text style={styles.text}>
+                      {t('screens.home.index.sanitaryItinerary', {
+                        walkingTime,
+                      })}
+                    </Text>
+                  </View>
+                )}
+              </View>
+
+              <FillButton onPress={handleOpenMaps}>
+                <Feather name="map" size={16} color={colors.white} />
+              </FillButton>
             </View>
 
             <Divider />
@@ -150,17 +175,6 @@ export default function SanitaryBottomSheet({
             </Text>
 
             {renderServices()}
-
-            <Divider />
-
-            <View style={styles.rowContainer}>
-              <FillButton onPress={onClose}>
-                {t('screens.home.index.sanitaryCloseLabel')}
-              </FillButton>
-              <FillButton onPress={handleOpenMaps}>
-                {t('screens.home.index.santaryOpenIntinerary')}
-              </FillButton>
-            </View>
           </BottomSheetView>
         </BottomSheet>
       </View>

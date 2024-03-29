@@ -8,7 +8,7 @@
     "scheme": "esd-mobile-app-project",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/images/pin_toilettes.png",
+      "image": "./assets/splashscreen.png",
       "resizeMode": "contain",
       "backgroundColor": "#7478B7"
     },
