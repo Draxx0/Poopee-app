@@ -76,10 +76,22 @@ export default function Filters({
     if (!sanitaries.length || !location) {
       return;
     }
-
-    let sortedSanitaries = [...SANITARIES];
-
-    sortedSanitaries.forEach((sanitary) => {
+  
+    let filteredSanitaries = [...SANITARIES];
+  
+    if (selectedFilter.includes('pmr')) {
+      filteredSanitaries = filteredSanitaries.filter(
+        (sanitary) => sanitary.acces_pmr === 'Oui'
+      );
+    }
+  
+    if (selectedFilter.includes('baby')) {
+      filteredSanitaries = filteredSanitaries.filter(
+        (sanitary) => sanitary.relais_bebe === 'Oui'
+      );
+    }
+  
+    filteredSanitaries.forEach((sanitary) => {
       const distance = calculateDistance(
         location.coords.latitude,
         location.coords.longitude,
@@ -88,29 +100,29 @@ export default function Filters({
       );
       sanitary.distance = distance;
     });
-
-    sortedSanitaries.sort(
-      (a: Sanitaries, b: Sanitaries) => a.distance! - b.distance!
-    );
-
-    setSanitaries([sortedSanitaries[0]]);
-    setSelectedSanitary(sortedSanitaries[0]);
+  
+    filteredSanitaries.sort((a: Sanitaries, b: Sanitaries) => a.distance! - b.distance!);
+    
+    setSanitaries([filteredSanitaries[0]]);
+  
+    setSelectedSanitary(filteredSanitaries[0]);
+  
     setMenuVisible(true);
 
     handleMarkerPress({
       mapRef,
-      sanitary: sortedSanitaries[0],
+      sanitary: filteredSanitaries[0],
       setSelectedSanitary,
       setMenuVisible,
       location,
       setWalkingTime,
-    });
+    });  
 
     moveMapToLocation(mapRef, {
-      latitude: sortedSanitaries[0].geo_point_2d.lat,
-      longitude: sortedSanitaries[0].geo_point_2d.lon,
+      latitude: filteredSanitaries[0].geo_point_2d.lat,
+      longitude: filteredSanitaries[0].geo_point_2d.lon,
     });
-  }, [location]);
+  }, [location, selectedFilter]);
 
   const calculateDistance = (
     lat1: number,
