@@ -6,12 +6,12 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
-import { Image } from 'expo-image';
-import { FontAwesome5, Entypo } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 export function Header() {
   const navigation = useNavigation();
@@ -39,7 +39,6 @@ export function Header() {
             </View>
             <TouchableOpacity
               onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-              style={styles.menuButton}
             >
               <Entypo name="info-with-circle" size={24} color={colors.white} />
             </TouchableOpacity>
@@ -55,6 +54,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     backgroundColor: 'transparent',
+    marginTop: Platform.OS === 'ios' ? 0 : 20,
   },
   header: {
     flexDirection: 'row',
@@ -65,24 +65,12 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     backgroundColor: 'transparent',
   },
-  logoIcon: {
-    width: 30,
-    height: 30,
-    backgroundColor: 'white',
-    borderRadius: 15,
-    marginRight: 5,
-    borderColor: 'green',
-    borderWidth: 2,
-  },
   logoText: {
     color: colors.white,
     fontSize: 16,
     fontWeight: 'bold',
     flex: 1,
     textAlign: 'center',
-  },
-  menuButton: {
-    padding: 10,
   },
   menuText: {
     color: 'white',
