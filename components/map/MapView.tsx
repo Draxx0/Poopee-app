@@ -17,6 +17,8 @@ type Props = {
   selectedFilter: Filters[];
   setWalkingTime: (time: string | null) => void;
   mapRef: React.RefObject<MapView>;
+  visible: boolean;
+  handleClose: () => void;
 };
 
 export default function MapViewComp({

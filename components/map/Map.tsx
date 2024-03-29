@@ -1,4 +1,4 @@
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import MapViewComp from './MapView';
 import SanitaryBottomSheet from './sanitaryDetails/SanitaryBottomSheet';
 import { useRef, useState } from 'react';
@@ -38,6 +38,8 @@ export default function Map() {
   return (
     <View style={styles.container}>
       <MapViewComp
+        handleClose={handleClose}
+        visible={menuVisible}
         setSelectedSanitary={setSelectedSanitary}
         setMenuVisible={setMenuVisible}
         selectedFilter={selectedFilters}

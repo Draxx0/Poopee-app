@@ -1,10 +1,13 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useRef, useMemo, useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Linking,
   ActivityIndicator,
+  TouchableOpacity,
+  Dimensions,
+  GestureResponderEvent,
 } from 'react-native';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { Sanitaries } from '~/types';
@@ -14,12 +17,14 @@ import Divider from '~/components/common/Divider';
 import { useTranslation } from 'react-i18next';
 import PressableButton from '~/components/common/PressableButton';
 import FillButton from '~/components/common/FillButton';
+
 type Props = {
   visible: boolean;
   data: Sanitaries | null;
   onClose: () => void;
   walkingTime: string | null;
 };
+
 export default function SanitaryBottomSheet({
   data,
   visible,
@@ -28,8 +33,8 @@ export default function SanitaryBottomSheet({
 }: Props) {
   const { t } = useTranslation();
   const bottomSheetRef = useRef<BottomSheet>(null);
-
-  const snapPoints = useMemo(() => ['45%', '75%'], []);
+  const snapPoints = useMemo(() => ['45%'], []);
+  const [bottomSheetHeight, setBottomSheetHeight] = useState<number>(0);
 
   const handleOpenMaps = () => {
     if (data) {
@@ -40,9 +45,8 @@ export default function SanitaryBottomSheet({
     }
   };
 
-  const renderServices = useCallback(() => {
+  const renderServices = () => {
     if (!data) return null;
-
     return (
       <View style={{ ...styles.rowContainer, gap: 20 }}>
         {data.acces_pmr === 'Oui' && (
@@ -53,7 +57,6 @@ export default function SanitaryBottomSheet({
             </Text>
           </View>
         )}
-
         {data.relais_bebe === 'Oui' && (
           <View style={styles.rowContainer}>
             <FontAwesome5 name="baby" size={16} color={colors.main} />
@@ -62,7 +65,6 @@ export default function SanitaryBottomSheet({
             </Text>
           </View>
         )}
-
         {data.relais_bebe === 'Non' && data.acces_pmr === 'Non' && (
           <Text style={styles.text}>
             {t('screens.home.index.sanitaryNoServices')}
@@ -70,7 +72,7 @@ export default function SanitaryBottomSheet({
         )}
       </View>
     );
-  }, [data]);
+  };
 
   return (
     visible &&
@@ -94,7 +96,13 @@ export default function SanitaryBottomSheet({
             borderTopRightRadius: 14,
           }}
         >
-          <BottomSheetView style={styles.contentContainer}>
+          <BottomSheetView
+            onLayout={(event) => {
+              const { height } = event.nativeEvent.layout;
+              setBottomSheetHeight(height);
+            }}
+            style={styles.contentContainer}
+          >
             <View
               style={{
                 ...styles.rowContainer,
@@ -174,6 +182,16 @@ export default function SanitaryBottomSheet({
             {renderServices()}
           </BottomSheetView>
         </BottomSheet>
+
+        {visible && (
+          <TouchableOpacity
+            style={{
+              ...styles.touchableOpacity,
+              height: Dimensions.get('window').height - bottomSheetHeight,
+            }}
+            onPress={onClose}
+          />
+        )}
       </View>
     )
   );
@@ -183,7 +201,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 28,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0, 0.5)',
     zIndex: 20,
   },
   contentContainer: {
@@ -210,5 +228,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     color: colors.white,
+  },
+  touchableOpacity: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'transparent',
   },
 });

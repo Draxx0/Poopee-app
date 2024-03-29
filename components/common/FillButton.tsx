@@ -11,8 +11,8 @@ export default function FillButton({
   children,
 }: PropsWithChildren<Props>) {
   return (
-    <Pressable onPress={onPress}>
-      <Text style={styles.button}>{children}</Text>
+    <Pressable style={styles.button} onPress={onPress}>
+      <Text>{children}</Text>
     </Pressable>
   );
 }
