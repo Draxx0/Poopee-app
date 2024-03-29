@@ -14,18 +14,18 @@ const en: typeof fr = {
         sanitaryEmptyOpenHours: 'No hours available',
         sanitaryOpenCard: 'Open card',
         sanitaryNoAddress: 'No address',
-        sanitaryItinerary: 'Walking time : {{walkingTime}}',
-        sanitaryAdress: 'Address : {{adress}}',
-        sanitaryOpenHours: 'Hours : {{openHours}}',
+        sanitaryItinerary: 'Walking time: {{walkingTime}}',
+        sanitaryAdress: 'Address: {{adress}}',
+        sanitaryOpenHours: 'Hours: {{openHours}}',
       },
     },
     settings: {
       index: {
         tabBarLabel: 'Settings',
-        title: 'Welcome to Poopee !',
+        title: 'Welcome to Poopee!',
         subtitle: 'Find public toilets in Paris.',
         filter: {
-          title: 'You have the possibility to filter public toilets by :',
+          title: 'You have the possibility to filter public toilets by:',
           nearest: 'Nearest toilets',
           pmr: 'Accessibility PWRM',
           babyRelay: 'Baby relay',

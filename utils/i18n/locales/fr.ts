@@ -12,19 +12,19 @@ const fr = {
         sanitaryEmptyOpenHours: 'Aucun horaire',
         sanitaryOpenCard: 'Ouvrir la fiche',
         sanitaryNoAddress: 'Aucune adresse',
-        sanitaryAdress: 'Adresse : {{adress}}',
-        sanitaryOpenHours: 'Horaires : {{openHours}}',
-        sanitaryItinerary: 'Temps de marche : {{walkingTime}}',
+        sanitaryAdress: 'Adresse\u00A0: {{adress}}',
+        sanitaryOpenHours: 'Horaires\u00A0: {{openHours}}',
+        sanitaryItinerary: 'Temps de marche\u00A0: {{walkingTime}}',
       },
     },
     settings: {
       index: {
         tabBarLabel: 'Paramètres',
-        title: 'Bienvenue sur Poopee !',
+        title: 'Bienvenue sur Poopee\u00A0!',
         subtitle: 'Trouvez les toilettes publiques à Paris.',
         filter: {
           title:
-            'Vous avez la possibilité de filtrer les toilettes publiques par :',
+            'Vous avez la possibilité de filtrer les toilettes publiques par\u00A0:',
           nearest: 'Les plus proches',
           pmr: 'Accessibilité PMR',
           babyRelay: 'Relais bébé',
