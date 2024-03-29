@@ -29,6 +29,7 @@ const en: typeof fr = {
           nearest: 'Nearest toilets',
           pmr: 'Accessibility PWRM',
           babyRelay: 'Baby relay',
+          locateMe: 'Locate me',
         },
         sanitaryCard:
           'On the toilet card, you will find different information such as opening hours or available services.',

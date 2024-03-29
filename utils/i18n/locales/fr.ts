@@ -28,6 +28,7 @@ const fr = {
           nearest: 'Les plus proches',
           pmr: 'Accessibilité PMR',
           babyRelay: 'Relais bébé',
+          locateMe: 'Me localiser',
         },
         sanitaryCard:
           'Sur la fiche des toilettes, vous trouverez différentres informations comme les horaires ou les services disponibles.',

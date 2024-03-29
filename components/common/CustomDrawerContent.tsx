@@ -7,7 +7,7 @@ import { Text, View, StyleSheet, TouchableHighlight } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { colors } from '~/constants';
 import Divider from './Divider';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import i18n from 'i18next';
 import { useMemo } from 'react';
@@ -158,6 +158,24 @@ export default function CustomDrawerContent(props: any) {
                 }}
               >
                 {t('screens.settings.index.filter.nearest')}
+              </Text>
+            </View>
+
+            <View style={styles.rowContainer}>
+              <View style={styles.iconContainer}>
+                <FontAwesome
+                  name="location-arrow"
+                  size={16}
+                  color={colors.white}
+                />
+              </View>
+              <Text
+                style={{
+                  ...styles.subtitle,
+                  fontWeight: 'bold',
+                }}
+              >
+                {t('screens.settings.index.filter.locateMe')}
               </Text>
             </View>
           </View>

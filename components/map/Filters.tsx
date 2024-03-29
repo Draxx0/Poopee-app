@@ -16,6 +16,7 @@ type Props = {
   selectedFilter: IFilters[];
   setSelectedFilters: (filters: IFilters[]) => void;
   setSelectedSanitary: (marker: Sanitaries) => void;
+  applyFilters: () => void;
   mapRef: React.RefObject<MapView>;
   setMenuVisible: (visible: boolean) => void;
   setWalkingTime: (time: string | null) => void;
@@ -28,6 +29,7 @@ export default function Filters({
   mapRef,
   setWalkingTime,
   setMenuVisible,
+  applyFilters,
 }: Props) {
   const { setSanitaries, sanitaries } = useSanitariesStore();
   const { location } = useUserLocationStore();
@@ -38,24 +40,6 @@ export default function Filters({
     },
     [selectedFilter]
   );
-
-  const applyFilters = useCallback(() => {
-    let filteredSanitaries = SANITARIES;
-
-    if (selectedFilter.includes('pmr')) {
-      filteredSanitaries = filteredSanitaries.filter(
-        (sanitary) => sanitary.acces_pmr === 'Oui'
-      );
-    }
-
-    if (selectedFilter.includes('baby')) {
-      filteredSanitaries = filteredSanitaries.filter(
-        (sanitary) => sanitary.relais_bebe === 'Oui'
-      );
-    }
-
-    setSanitaries(filteredSanitaries);
-  }, [selectedFilter, setSanitaries]);
 
   useEffect(() => {
     applyFilters();
@@ -76,21 +60,21 @@ export default function Filters({
     if (!sanitaries.length || !location) {
       return;
     }
-  
+
     let filteredSanitaries = [...SANITARIES];
-  
+
     if (selectedFilter.includes('pmr')) {
       filteredSanitaries = filteredSanitaries.filter(
         (sanitary) => sanitary.acces_pmr === 'Oui'
       );
     }
-  
+
     if (selectedFilter.includes('baby')) {
       filteredSanitaries = filteredSanitaries.filter(
         (sanitary) => sanitary.relais_bebe === 'Oui'
       );
     }
-  
+
     filteredSanitaries.forEach((sanitary) => {
       const distance = calculateDistance(
         location.coords.latitude,
@@ -100,13 +84,15 @@ export default function Filters({
       );
       sanitary.distance = distance;
     });
-  
-    filteredSanitaries.sort((a: Sanitaries, b: Sanitaries) => a.distance! - b.distance!);
-    
+
+    filteredSanitaries.sort(
+      (a: Sanitaries, b: Sanitaries) => a.distance! - b.distance!
+    );
+
     setSanitaries([filteredSanitaries[0]]);
-  
+
     setSelectedSanitary(filteredSanitaries[0]);
-  
+
     setMenuVisible(true);
 
     handleMarkerPress({
@@ -116,7 +102,7 @@ export default function Filters({
       setMenuVisible,
       location,
       setWalkingTime,
-    });  
+    });
 
     moveMapToLocation(mapRef, {
       latitude: filteredSanitaries[0].geo_point_2d.lat,
